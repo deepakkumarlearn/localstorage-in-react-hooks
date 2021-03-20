@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useState, useEffect } from "react";
 function App() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const data = localStorage.getItem("countValue");
+    if (data) {
+      setCount(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("countValue", JSON.stringify(count));
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <span>
+        <button onClick={() => setCount((pre) => pre + 1)}>+</button>
+      </span>
+      <span>
+        <p> {count}</p>
+      </span>
+      <span>
+        <button onClick={() => setCount((pre) => pre - 1)}>-</button>
+      </span>
     </div>
   );
 }
